@@ -2,6 +2,7 @@ package d_minSpanTree.controller.operation.algorithm;
 
 import java.util.ArrayList;
 
+import d_minSpanTree.model.Edge;
 import d_minSpanTree.model.GraphModelInterface;
 import d_minSpanTree.model.Vertex;
 
@@ -35,9 +36,9 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 		double super_tri_width = (max_x - min_x) * 3;
 
 		Triangle super_triangle = new Triangle();
-		super_triangle.setPoint(0, min_x, min_y);
-		super_triangle.setPoint(1, super_tri_width, min_y);
-		super_triangle.setPoint(2, min_x, super_tri_height);
+		super_triangle.setVertex(0, new Vertex("super", min_x, min_y));
+		super_triangle.setVertex(1, new Vertex("super", super_tri_width, min_y));
+		super_triangle.setVertex(2, new Vertex("super", min_x, super_tri_height));
 
 		ArrayList<Triangle> triangulation = new ArrayList<Triangle>();
 		triangulation.add(super_triangle);
@@ -52,17 +53,15 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 
 		// remove triangles that contain super-triangle vertex
 
-		// for (int i0 = 0; i0 < gmi.getVertices().size(); i0++) {
-		// for (int i1 = i0 + 1; i1 < gmi.getVertices().size(); i1++) {
-		// Vertex v0 = gmi.getVertices().get(i0);
-		// Vertex v1 = gmi.getVertices().get(i1);
-		// Edge e = new Edge(v0, v1);
-		// double dx = v1.getX() - v0.getX();
-		// double dy = v1.getY() - v0.getY();
-		// e.setWeight(dx * dx + dy * dy);
-		// gmi.getEdges().add(e);
-		// }
-		// }
+		for (int i = 0; i < triangulation.size(); i++) {
+			Vertex v0 = triangulation.get(i).getVertex(0);
+			Vertex v1 = triangulation.get(i).getVertex(0);
+			Edge e = new Edge(v0, v1);
+			double dx = v1.getX() - v0.getX();
+			double dy = v1.getY() - v0.getY();
+			e.setWeight(dx * dx + dy * dy);
+			gmi.getEdges().add(e);
+		}
 
 		long endTime = System.nanoTime(); // Finish the total timing
 		float timeElapsed = (endTime - startTime) / 1000000.0f; // milliseconds
@@ -78,14 +77,14 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 	}
 
 	class Triangle {
-		public double[][] points = new double[3][2];
+		public Vertex[] vertices = new Vertex[3];
 
-		public void setPoint(int i, double x, double y) {
-			points[i] = new double[] { x, y };
+		public void setVertex(int i, Vertex v) {
+			vertices[i] = v;
 		}
 
-		public double[] getPoint(int i) {
-			return points[i];
+		public Vertex getVertex(int i) {
+			return vertices[i];
 		}
 	}
 	
