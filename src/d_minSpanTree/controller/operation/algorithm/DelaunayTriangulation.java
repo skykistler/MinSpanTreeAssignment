@@ -2,7 +2,6 @@ package d_minSpanTree.controller.operation.algorithm;
 
 import java.util.ArrayList;
 
-import d_minSpanTree.model.Edge;
 import d_minSpanTree.model.GraphModelInterface;
 import d_minSpanTree.model.Vertex;
 
@@ -30,9 +29,18 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 			if (v.getY() > max_y)
 				max_y = v.getY();
 		}
+		min_x -= 1;
+		min_y -= 1;
+		double super_tri_height = (max_y - min_y) * 3;
+		double super_tri_width = (max_x - min_x) * 3;
 
-		ArrayList<Edge> triangulation = new ArrayList<Edge>();
-		// generate super-triangle and add to triangulation
+		Triangle super_triangle = new Triangle();
+		super_triangle.setPoint(0, min_x, min_y);
+		super_triangle.setPoint(1, super_tri_width, min_y);
+		super_triangle.setPoint(2, min_x, super_tri_height);
+
+		ArrayList<Triangle> triangulation = new ArrayList<Triangle>();
+		triangulation.add(super_triangle);
 
 		// for each point :
 		// find all bad triangles (point is inside circumcircle of triangle)
@@ -65,6 +73,14 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 
 	public boolean canLiveUpdate() {
 		return true;
+	}
+
+	class Triangle {
+		public double[][] points = new double[3][2];
+
+		public void setPoint(int i, double x, double y) {
+			points[i] = new double[] { x, y };
+		}
 	}
 
 }
