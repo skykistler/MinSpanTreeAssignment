@@ -60,4 +60,12 @@ public class Edge {
 		state = e;
 	}
 
+	public boolean compare(Edge e) {
+		if (getStart() == e.getStart() && getEnd() == e.getEnd())
+			return true;
+		if (getStart() == e.getEnd() && getEnd() == e.getStart())
+			return true;
+		return false;
+	}
+
 }
