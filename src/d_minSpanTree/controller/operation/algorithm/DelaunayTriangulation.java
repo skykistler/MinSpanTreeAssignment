@@ -4,18 +4,32 @@ import java.util.ArrayList;
 
 import d_minSpanTree.model.Edge;
 import d_minSpanTree.model.GraphModelInterface;
+import d_minSpanTree.model.Vertex;
 
 public class DelaunayTriangulation implements GraphAlgorithm {
 
 	public void execute(GraphModelInterface gmi) {
 		gmi.getEdges().clear();
 
-		// TODO: the code here is not Delaunay triangulation.
-		// TODO: (group assignment) modify below to get the code run faster
 		long startTime = System.nanoTime(); // Start the total timing
 
 		// TODO: Implement Bowyer-Watson
 		// http://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm
+
+		double min_x = Double.POSITIVE_INFINITY;
+		double max_x = Double.NEGATIVE_INFINITY;
+		double min_y = Double.POSITIVE_INFINITY;
+		double max_y = Double.NEGATIVE_INFINITY;
+		for (Vertex v : gmi.getVertices()) {
+			if (v.getX() < min_x)
+				min_x = v.getX();
+			if (v.getX() > max_x)
+				max_x = v.getX();
+			if (v.getY() < min_y)
+				min_y = v.getY();
+			if (v.getY() > max_y)
+				max_y = v.getY();
+		}
 
 		ArrayList<Edge> triangulation = new ArrayList<Edge>();
 		// generate super-triangle and add to triangulation
