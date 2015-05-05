@@ -100,8 +100,30 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 		System.out.println("Edge creation O(f(nE,nV)???):" + timeElapsed);
 	}
 
-	public boolean inCircumcircle(Triangle t, Vertex v) {
-		return false;
+	private boolean inCircumcircle(Triangle t, Vertex v) {
+		double[][] m = new double[4][];
+		for (int i = 0; i < 3; i++) {
+			Vertex point = t.getVertex(i);
+			double x = point.getX();
+			double y = point.getY();
+			double[] row = new double[] { x, y, (x * x) + (y * y), 1 };
+			m[i] = row;
+		}
+		double x = v.getX();
+		double y = v.getY();
+		double[] row = new double[] { x, y, (x * x) + (y * y), 1 };
+		m[3] = row;
+
+		double determinant = (m[0][0]
+				* (m[1][1] * ((m[2][2] * m[3][3]) - (m[2][3] * m[3][2])) - m[1][2] * ((m[2][1] * m[3][3]) - (m[2][3] * m[3][1])) + m[1][3] * ((m[2][1] * m[3][2]) - (m[2][2] * m[3][1]))) - m[0][1]
+				* (m[1][0] * ((m[2][2] * m[3][3]) - (m[2][3] * m[3][2])) - m[1][2] * ((m[2][0] * m[3][3]) - (m[2][3] * m[3][0])) + m[1][3] * ((m[2][0] * m[3][2]) - (m[2][2] * m[3][0]))) + m[0][2]
+				* (m[1][0] * ((m[2][1] * m[3][3]) - (m[2][3] * m[3][1])) - m[1][1] * ((m[2][0] * m[3][3]) - (m[2][3] * m[3][0])) + m[1][3] * ((m[2][0] * m[3][1]) - (m[2][1] * m[3][0]))) - m[0][3]
+				* (m[1][0] * ((m[2][1] * m[3][2]) - (m[2][2] * m[3][1])) - m[1][1] * ((m[2][0] * m[3][2]) - (m[2][2] * m[3][0])) + m[1][2] * ((m[2][0] * m[3][1]) - (m[2][1] * m[3][0]))));
+
+		if (determinant > 0)
+			return true;
+		else
+			return false;
 	}
 
 	public String getName() {
