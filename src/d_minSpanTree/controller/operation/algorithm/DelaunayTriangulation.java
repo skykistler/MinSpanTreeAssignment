@@ -38,8 +38,9 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 
 		Triangle super_triangle = new Triangle();
 		super_triangle.setVertex(0, new Vertex("super", min_x, min_y));
-		super_triangle.setVertex(1, new Vertex("super", super_tri_width, min_y));
-		super_triangle.setVertex(2, new Vertex("super", min_x, super_tri_height));
+		super_triangle.setVertex(1, new Vertex("super", min_x + super_tri_width, min_y));
+		super_triangle.setVertex(2, new Vertex("super", min_x, min_y + super_tri_height));
+		super_triangle.makeEdges();
 
 		ArrayList<Triangle> triangulation = new ArrayList<Triangle>();
 		triangulation.add(super_triangle);
