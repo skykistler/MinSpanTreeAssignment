@@ -42,11 +42,13 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 		ArrayList<Triangle> triangulation = new ArrayList<Triangle>();
 		triangulation.add(super_triangle);
 
-		// for each point :
-		// find all bad triangles (point is inside circumcircle of triangle)
-		// add all edges to polygon that aren't shared by other bad triangles
-		// remove all bad triangles from triangulation
-		// add polygon triangles to triangulation
+		for (Vertex v : gmi.getVertices()) {
+			// find all bad triangles (point is inside circumcircle of triangle)
+			// add all edges to polygon that aren't shared by other bad
+			// triangles
+			// remove all bad triangles from triangulation
+			// add polygon triangles to triangulation
+		}
 
 		// remove triangles that contain super-triangle vertex
 
@@ -68,7 +70,7 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 	}
 
 	public String getName() {
-		return "Connect All Vertices";
+		return "Delaunay Triangulation";
 	}
 
 	public boolean canLiveUpdate() {
@@ -80,6 +82,10 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 
 		public void setPoint(int i, double x, double y) {
 			points[i] = new double[] { x, y };
+		}
+
+		public double[] getPoint(int i) {
+			return points[i];
 		}
 	}
 
