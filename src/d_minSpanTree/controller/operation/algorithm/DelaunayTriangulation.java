@@ -88,5 +88,5 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 			return points[i];
 		}
 	}
-
+	
 }
