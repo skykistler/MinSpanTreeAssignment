@@ -44,7 +44,7 @@ public class ConvexHull implements GraphAlgorithm {
 			int next = (i + 1) % ret.size();
 			e = new Edge(ret.get(i), ret.get(next));
 			e.setOpacity(1);
-			gmi.getEdges().add(e);
+			gmi.getDisplayEdges().add(e);
 		}
 
 	}
