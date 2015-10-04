@@ -1,4 +1,4 @@
-# SkyGraph
+# Ultimate Graph
 
 Edit which algorithms are run in UltimateGraph.java
 
