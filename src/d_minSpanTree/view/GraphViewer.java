@@ -57,7 +57,7 @@ public class GraphViewer implements ViewerInterface {
 			}
 		});
 
-		window.setTitle("Minimum Spanning Tree");
+		window.setTitle("SkyGraph");
 		window.setScene(new Scene(rootPane, windowWidth, windowHeight));
 		window.show();
 	}
