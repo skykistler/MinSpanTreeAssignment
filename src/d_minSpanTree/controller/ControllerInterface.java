@@ -16,17 +16,23 @@ public interface ControllerInterface {
 
 	public void keyPressed(KeyEvent e);
 
-    public void newGraph();
+	public void newGraph();
 
 	public void fileOpen(String path);
 
-    public void fileSave(String path);
+	public void fileSave(String path);
 
 	public void undo();
 
 	public void redo();
 
-    public void randNVertices(boolean reset,int nRandVertices);
+	public void clearPolygons();
+
+	public void clearEdges();
+
+	public void clearVertices();
+
+	public void randNVertices(boolean reset, int nRandVertices);
 
 	public GraphOperationInvoker getInvoker();
 

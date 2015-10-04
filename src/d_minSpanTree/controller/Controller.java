@@ -1,13 +1,16 @@
 package d_minSpanTree.controller;
 
 import d_minSpanTree.controller.operation.AddGraphAlgorithm;
+import d_minSpanTree.controller.operation.AddNRandomVertices;
 import d_minSpanTree.controller.operation.AddVertex;
+import d_minSpanTree.controller.operation.ClearEdges;
+import d_minSpanTree.controller.operation.ClearPolygons;
+import d_minSpanTree.controller.operation.ClearVertices;
 import d_minSpanTree.controller.operation.FinishMoveVertex;
 import d_minSpanTree.controller.operation.GraphOperationInvoker;
 import d_minSpanTree.controller.operation.LoadGraph;
 import d_minSpanTree.controller.operation.MoveVertex;
 import d_minSpanTree.controller.operation.NewGraph;
-import d_minSpanTree.controller.operation.AddNRandomVertices;
 import d_minSpanTree.controller.operation.RedoOperation;
 import d_minSpanTree.controller.operation.SaveGraph;
 import d_minSpanTree.controller.operation.StartMoveVertex;
@@ -51,13 +54,13 @@ public class Controller implements ControllerInterface {
 	public void keyPressed(KeyEvent e) {
 	}
 
-    public void newGraph() {
-        invoker.doOperation(new NewGraph(invoker.getUndoStack()));
-    }
+	public void newGraph() {
+		invoker.doOperation(new NewGraph(invoker.getUndoStack()));
+	}
 
-    public void fileOpen(String path) {
-        invoker.doOperation(new LoadGraph(path, invoker.getUndoStack()));
-    }
+	public void fileOpen(String path) {
+		invoker.doOperation(new LoadGraph(path, invoker.getUndoStack()));
+	}
 
 	public void fileSave(String path) {
 		invoker.doOperation(new SaveGraph(path, invoker.getUndoStack()));
@@ -71,9 +74,21 @@ public class Controller implements ControllerInterface {
 		invoker.doOperation(new RedoOperation(invoker.getUndoStack(), invoker.getRedoStack()));
 	}
 
-    public void randNVertices(boolean reset, int nRandVertices) {
-        invoker.doOperation(new AddNRandomVertices(reset, nRandVertices, invoker.getUndoStack()));
-    }
+	public void clearPolygons() {
+		invoker.doOperation(new ClearPolygons());
+	}
+
+	public void clearEdges() {
+		invoker.doOperation(new ClearEdges());
+	}
+
+	public void clearVertices() {
+		invoker.doOperation(new ClearVertices());
+	}
+
+	public void randNVertices(boolean reset, int nRandVertices) {
+		invoker.doOperation(new AddNRandomVertices(reset, nRandVertices, invoker.getUndoStack()));
+	}
 
 	public GraphOperationInvoker getInvoker() {
 		return invoker;

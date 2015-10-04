@@ -45,7 +45,7 @@ public class MinimumSpanningTree implements GraphAlgorithm {
 		System.out.println("MST (Kruskal) time O(f(nE,nV)???):" + timeElapsed);
 
 		for (Edge e : finalTree) {
-			e.setOpacity(1);
+			e.setOpacity(.8);
 		}
 
 		gmi.getDisplayEdges().clear();

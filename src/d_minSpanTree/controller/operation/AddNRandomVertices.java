@@ -12,7 +12,7 @@ public class AddNRandomVertices implements UndoableGraphOperation {
 	boolean reset;
 	int nRandomVertices;
 	Random rand = new Random(); // One can seed with a parameter variable here
-	static int seed = 1;
+	static int seed = (int) System.nanoTime(); // 1 for cool stuff
 	ArrayList<Vertex> added = new ArrayList<Vertex>();
 
 	public AddNRandomVertices(boolean reset, int nRandVert, Stack<UndoableGraphOperation> commandStack) {

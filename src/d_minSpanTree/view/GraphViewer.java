@@ -1,7 +1,13 @@
 package d_minSpanTree.view;
 
 import java.io.File;
+import java.util.ArrayList;
 
+import d_minSpanTree.controller.ControllerInterface;
+import d_minSpanTree.model.Edge;
+import d_minSpanTree.model.GraphModelInterface;
+import d_minSpanTree.model.Shape;
+import d_minSpanTree.model.Vertex;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -9,18 +15,16 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import d_minSpanTree.controller.ControllerInterface;
-import d_minSpanTree.model.Edge;
-import d_minSpanTree.model.GraphModelInterface;
-import d_minSpanTree.model.Vertex;
 
 public class GraphViewer implements ViewerInterface {
-	public static int windowWidth = 800, windowHeight = 700;
+	public static int windowWidth = 600, windowHeight = 500;
 	private final int menuBarHeight = 25;
 
 	private GraphModelInterface graphModel;
@@ -102,6 +106,32 @@ public class GraphViewer implements ViewerInterface {
 		});
 		fileMenu.getItems().add(redo);
 
+		MenuItem clear_p = new MenuItem("Clear Polygons");
+		clear_p.setOnAction(e -> {
+			controller.clearPolygons();
+		});
+		fileMenu.getItems().add(clear_p);
+
+		MenuItem clear_e = new MenuItem("Clear Edges");
+		clear_e.setOnAction(e -> {
+			controller.clearEdges();
+		});
+		fileMenu.getItems().add(clear_e);
+
+		MenuItem clear_v = new MenuItem("Clear Vertices");
+		clear_v.setOnAction(e -> {
+			controller.clearVertices();
+		});
+		fileMenu.getItems().add(clear_v);
+
+		MenuItem clear_a = new MenuItem("Clear All");
+		clear_a.setOnAction(e -> {
+			controller.clearPolygons();
+			controller.clearEdges();
+			controller.clearVertices();
+		});
+		fileMenu.getItems().add(clear_a);
+
 		Menu fileMenu2 = new Menu("New Random");
 		MenuItem rand1e1n = new MenuItem("Random 10");
 		rand1e1n.setOnAction(e -> {
@@ -151,15 +181,23 @@ public class GraphViewer implements ViewerInterface {
 		rootPane.getChildren().remove(graphPane);
 		graphPane = new Pane();
 		graphPane.setMinSize(windowWidth, windowHeight - menuBarHeight);
+		// graphPane.setStyle("-fx-background-color: #00369a;");
 		graphPane.setLayoutY(menuBarHeight);
 		graphPane.setOnMouseClicked(e -> {
 			controller.mousePressedOnGraph(e);
 		});
 
+		drawPolygons();
 		drawEdges();
 		drawVertices();
 
 		rootPane.getChildren().add(graphPane);
+	}
+
+	private void drawPolygons() {
+		for (Shape p : graphModel.getPolygons()) {
+			makePolygonDisplay(p);
+		}
 	}
 
 	private void drawVertices() {
@@ -172,6 +210,24 @@ public class GraphViewer implements ViewerInterface {
 		for (Edge e : graphModel.getDisplayEdges()) {
 			makeEdgeDisplay(e);
 		}
+	}
+
+	private void makePolygonDisplay(Shape p) {
+		Polygon poly = new Polygon();
+
+		ArrayList<Double> points = new ArrayList<Double>();
+		for (Vertex v : p.getVertices()) {
+			points.add(v.getX());
+			points.add(v.getY());
+		}
+
+		poly.getPoints().addAll(points);
+
+		double[] color = p.getColor();
+		poly.setFill(new Color(color[0], color[1], color[2], p.getOpacity()));
+
+		graphPane.getChildren().add(poly);
+
 	}
 
 	private void makeVertexDisplay(Vertex v) {

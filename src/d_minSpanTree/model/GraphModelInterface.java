@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import d_minSpanTree.controller.operation.algorithm.GraphAlgorithm;
 
 public interface GraphModelInterface {
+	public ArrayList<Shape> getPolygons();
+
 	public ArrayList<Vertex> getVertices();
 
-    public ArrayList<Edge> getEdges();
+	public ArrayList<Edge> getEdges();
 
-    public ArrayList<Edge> getDisplayEdges();
+	public ArrayList<Edge> getDisplayEdges();
 
 	public ArrayList<GraphAlgorithm> getGraphAlgorithms();
 

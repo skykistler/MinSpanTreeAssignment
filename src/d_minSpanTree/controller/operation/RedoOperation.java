@@ -14,7 +14,7 @@ public class RedoOperation implements GraphOperation {
 	}
 
 	public void execute(GraphModelInterface gmi) {
-		if (redoStack.size() < 0)
+		if (redoStack.size() < 1)
 			return;
 		UndoableGraphOperation ugo = redoStack.pop();
 		ugo.execute(gmi);

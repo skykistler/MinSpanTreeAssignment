@@ -2,12 +2,16 @@ package d_minSpanTree.controller.operation.algorithm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import d_minSpanTree.model.Edge;
 import d_minSpanTree.model.GraphModelInterface;
+import d_minSpanTree.model.Shape;
 import d_minSpanTree.model.Vertex;
 
 public class DelaunayTriangulation implements GraphAlgorithm {
+
+	private static Random rand = new Random();
 
 	public void execute(GraphModelInterface gmi) {
 		gmi.getEdges().clear();
@@ -86,14 +90,37 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 					super_triangles.add(t);
 		triangulation.removeAll(super_triangles);
 
+		double step = 0;
+		double stepround = 40;
+
 		for (int i = 0; i < triangulation.size(); i++) {
+			step++;
+			double opacity = rand.nextDouble() * .8 + .2;
+			double red = (step / stepround) + .4;
+			red -= Math.floor(red);
+
+			double green = (step / stepround) + .2;
+			green -= Math.floor(green);
+
+			double blue = (step / stepround) + .3;
+			blue -= Math.floor(blue);
+
+			Shape p = new Shape(opacity, red, green, blue);
+
 			for (Edge e : triangulation.get(i).edges) {
+				p.addEdge(e);
+
 				double dx = e.getEnd().getX() - e.getStart().getX();
 				double dy = e.getEnd().getY() - e.getStart().getY();
 				e.setWeight(dx * dx + dy * dy);
 				gmi.getEdges().add(e);
 			}
+
+			gmi.getPolygons().add(p);
 		}
+
+		gmi.getDisplayEdges().clear();
+		gmi.getDisplayEdges().addAll(gmi.getEdges());
 
 		long endTime = System.nanoTime(); // Finish the total timing
 		float timeElapsed = (endTime - startTime) / 1000000.0f; // milliseconds
@@ -116,9 +143,11 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 
 		double determinant = (m[0][0]
 				* (m[1][1] * ((m[2][2] * m[3][3]) - (m[2][3] * m[3][2])) - m[1][2] * ((m[2][1] * m[3][3]) - (m[2][3] * m[3][1])) + m[1][3] * ((m[2][1] * m[3][2]) - (m[2][2] * m[3][1]))) - m[0][1]
-				* (m[1][0] * ((m[2][2] * m[3][3]) - (m[2][3] * m[3][2])) - m[1][2] * ((m[2][0] * m[3][3]) - (m[2][3] * m[3][0])) + m[1][3] * ((m[2][0] * m[3][2]) - (m[2][2] * m[3][0]))) + m[0][2]
-				* (m[1][0] * ((m[2][1] * m[3][3]) - (m[2][3] * m[3][1])) - m[1][1] * ((m[2][0] * m[3][3]) - (m[2][3] * m[3][0])) + m[1][3] * ((m[2][0] * m[3][1]) - (m[2][1] * m[3][0]))) - m[0][3]
-				* (m[1][0] * ((m[2][1] * m[3][2]) - (m[2][2] * m[3][1])) - m[1][1] * ((m[2][0] * m[3][2]) - (m[2][2] * m[3][0])) + m[1][2] * ((m[2][0] * m[3][1]) - (m[2][1] * m[3][0]))));
+						* (m[1][0] * ((m[2][2] * m[3][3]) - (m[2][3] * m[3][2])) - m[1][2] * ((m[2][0] * m[3][3]) - (m[2][3] * m[3][0])) + m[1][3] * ((m[2][0] * m[3][2]) - (m[2][2] * m[3][0])))
+				+ m[0][2]
+						* (m[1][0] * ((m[2][1] * m[3][3]) - (m[2][3] * m[3][1])) - m[1][1] * ((m[2][0] * m[3][3]) - (m[2][3] * m[3][0])) + m[1][3] * ((m[2][0] * m[3][1]) - (m[2][1] * m[3][0])))
+				- m[0][3]
+						* (m[1][0] * ((m[2][1] * m[3][2]) - (m[2][2] * m[3][1])) - m[1][1] * ((m[2][0] * m[3][2]) - (m[2][2] * m[3][0])) + m[1][2] * ((m[2][0] * m[3][1]) - (m[2][1] * m[3][0]))));
 
 		if (determinant > 0)
 			return true;

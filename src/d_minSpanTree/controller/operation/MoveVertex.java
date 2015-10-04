@@ -17,6 +17,7 @@ public class MoveVertex implements GraphOperation {
 		target.setX(xMoveTo);
 		target.setY(yMoveTo);
 		gmi.runAlgorithms();
+		gmi.getPolygons().clear();
 	}
 
 	public String getName() {
